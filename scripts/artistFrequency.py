@@ -35,6 +35,7 @@ def createArtistJSON():
     
     for filename in os.listdir(TEXT_DIR):
         content = open(os.path.join(TEXT_DIR, filename), 'r')
+        ranking = 1
         for lines in content:
             artist = lines.strip().upper()
             year = filename[:-4]
@@ -42,11 +43,14 @@ def createArtistJSON():
             if artist in artists:
                 index = next((i for (i, d) in enumerate(data["artists"]) if d["name"] == artist), None)
                 data["artists"][index]["years"].append(year)
+                data["artists"][index]["rankings"].append(ranking)
             else:
                 data["artists"].append({
                     "name": artist,
-                    "years": [year]
+                    "years": [year],
+                    "rankings": [ranking]
                 })
+            ranking += 1
     return data
 
 #Function to neatly display artist info

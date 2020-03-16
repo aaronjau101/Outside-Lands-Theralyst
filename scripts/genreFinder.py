@@ -47,7 +47,8 @@ def searchGenres(driver):
             titles = link.find_elements_by_class_name("title")
             if(len(titles) > 0):
                 title = titles[0].text.upper()
-                genres.append(title)
+                if title != "" and title not in genres:
+                    genres.append(title)
     #Looks for Knowledge-Panel Method
     KP = driver.find_elements_by_class_name("knowledge-panel")
     if(len(KP) > 0):
@@ -56,7 +57,7 @@ def searchGenres(driver):
             links = headers[0].find_elements_by_tag_name("a")
             if(len(links) > 0):
                 title = links[0].text.upper()
-                if title != "":
+                if title != "" and title not in genres:
                     genres.append(title)
         else:
             headers = KP[0].find_elements_by_class_name("kp-hc")
@@ -64,7 +65,7 @@ def searchGenres(driver):
                 links = headers[0].find_elements_by_tag_name("a")
                 if(len(links) > 0):
                     title = links[0].text.upper()
-                    if title != "":
+                    if title != "" and title not in genres:
                         genres.append(title)
     #Looks for Knowledge-Panel Block Method
     KP = driver.find_elements_by_class_name("kp-blk")
@@ -74,7 +75,7 @@ def searchGenres(driver):
             links = headers[0].find_elements_by_tag_name("a")
             if(len(links) > 0):
                 title = links[0].text.upper()
-                if title != "":
+                if title != "" and title not in genres:
                     genres.append(title)
     #Looks for WebAnswers Table Method
     WA = driver.find_elements_by_class_name("webanswers-webanswers_table__webanswers-table")
@@ -87,7 +88,8 @@ def searchGenres(driver):
                 category = cols[0].find_elements_by_tag_name("b")
                 if len(category)>0 and category[0].text.upper() == "GENRES":
                     title = cols[1].text.upper()
-                    genres.append(title)
+                    if title != "" and title not in genres:
+                        genres.append(title)
     return genres
 
 #Searches Google for the genres of an artist
@@ -139,6 +141,7 @@ def getAllArtistsGenres(artists):
                 })
         #        
         driver.close()
+        driver.quit()
         startIndex += SEARCHES_PER_BROWSER
     #    
     return data
